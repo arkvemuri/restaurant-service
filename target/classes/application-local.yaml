@@ -1,0 +1,12 @@
+eureka:
+  client:
+    service-url:
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/restaurantdb
+    password: Arkssvv@2025
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
