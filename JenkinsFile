@@ -27,7 +27,7 @@ pipeline {
 
     stage('SonarQube Analysis') {
   steps {
-    sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.host.url=https://rkvemuri2006-0832c402-1640-458c-a8e9-7e2ff9821cda.socketxp.com:9000/ -Dsonar.login=squ_413ff4edafed0589da72c2eb5973a8c904739e23'
+    sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.host.url=https://rkvemuri2006-0832c402-1640-458c-a8e9-7e2ff9821cda.socketxp.com/ -Dsonar.login=squ_413ff4edafed0589da72c2eb5973a8c904739e23'
   }
 }
 
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     def token = "squ_413ff4edafed0589da72c2eb5973a8c904739e23"
-                    def sonarQubeUrl = "https://rkvemuri2006-0832c402-1640-458c-a8e9-7e2ff9821cda.socketxp.com:9000/api"
+                    def sonarQubeUrl = "https://rkvemuri2006-0832c402-1640-458c-a8e9-7e2ff9821cda.socketxp.com/api"
                     def componentKey = "com.restaurant.example:restaurant-service"
                     def coverageThreshold = 0
 
