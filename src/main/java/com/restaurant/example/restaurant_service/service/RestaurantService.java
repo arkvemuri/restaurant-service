@@ -44,15 +44,15 @@ public class RestaurantService {
 	public ResponseEntity<RestaurantDTO> fetchRestaurantById(Integer id) {
 		
 		if (id == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 		
 		Optional<Restaurant> restaurant = restaurantRepo.findById(id);
 		
 		if(restaurant.isPresent())
 		{
-			return new ResponseEntity<>(RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO((restaurant.get())),HttpStatus.OK);
+			return ResponseEntity.ok(RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant.get()));
 		}
-		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		return ResponseEntity.notFound().build();
 	}
 }

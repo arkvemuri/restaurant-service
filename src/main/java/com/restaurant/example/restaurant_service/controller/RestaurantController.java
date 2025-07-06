@@ -1,6 +1,7 @@
 package com.restaurant.example.restaurant_service.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     public RestaurantController(RestaurantService restaurantService) {
-        if (restaurantService == null) {
-            throw new IllegalArgumentException("restaurantService must not be null");
-        }
-        this.restaurantService = restaurantService;
+        this.restaurantService = Objects.requireNonNull(restaurantService, "restaurantService must not be null");
     }
 
     @GetMapping("/fetchAllRestaurants")
