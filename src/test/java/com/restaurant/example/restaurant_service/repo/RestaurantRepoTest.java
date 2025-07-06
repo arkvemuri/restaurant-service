@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class RestaurantRepoTest {
+class RestaurantRepoTest {
 
     @Autowired
     private TestEntityManager entityManager;

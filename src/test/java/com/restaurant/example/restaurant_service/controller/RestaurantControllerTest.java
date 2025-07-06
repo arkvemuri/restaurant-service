@@ -3,9 +3,12 @@ package com.restaurant.example.restaurant_service.controller;
 import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
 import com.restaurant.example.restaurant_service.service.RestaurantService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(RestaurantController.class)
-public class RestaurantControllerTest {
+@Import(RestaurantControllerTest.MockConfig.class)
+class RestaurantControllerTest {
+
+    @TestConfiguration
+    static class MockConfig {
+        @Bean
+        public RestaurantService restaurantService() {
+            return mock(RestaurantService.class);
+        }
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +40,7 @@ public class RestaurantControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @Autowired
     private RestaurantService restaurantService;
 
     @Test

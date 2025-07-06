@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,11 @@ import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
 @Service
 public class RestaurantService {
 
-	@Autowired
-	RestaurantRepo restaurantRepo;
+	private final RestaurantRepo restaurantRepo;
+
+	public RestaurantService(RestaurantRepo restaurantRepo) {
+		this.restaurantRepo = restaurantRepo;
+	}
 
 	public List<RestaurantDTO> findAllRestaurants() {
 		

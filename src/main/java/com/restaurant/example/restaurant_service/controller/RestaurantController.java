@@ -2,7 +2,6 @@ package com.restaurant.example.restaurant_service.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,8 +20,14 @@ import com.restaurant.example.restaurant_service.service.RestaurantService;
 @CrossOrigin
 public class RestaurantController {
 
-    @Autowired
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
+
+    public RestaurantController(RestaurantService restaurantService) {
+        if (restaurantService == null) {
+            throw new IllegalArgumentException("restaurantService must not be null");
+        }
+        this.restaurantService = restaurantService;
+    }
 
     @GetMapping("/fetchAllRestaurants")
     public ResponseEntity<List<RestaurantDTO>> fetchAllRestaurants() {
