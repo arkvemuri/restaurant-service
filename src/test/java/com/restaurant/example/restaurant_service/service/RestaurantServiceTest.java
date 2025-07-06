@@ -26,15 +26,15 @@ class RestaurantServiceTest {
     @Mock
     private RestaurantRepo restaurantRepo;
 
+    @Mock
+    private RestaurantMapper restaurantMapper;
+
     @InjectMocks
     private RestaurantService restaurantService;
 
-    private RestaurantMapper restaurantMapper;
-
     @BeforeEach
     void setUp() {
-        restaurantMapper = RestaurantMapper.INSTANCE;
-        reset(restaurantRepo);
+        reset(restaurantRepo, restaurantMapper);
     }
 
     @Test
