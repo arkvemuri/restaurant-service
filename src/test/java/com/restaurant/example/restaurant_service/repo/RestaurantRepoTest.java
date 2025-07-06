@@ -40,7 +40,7 @@ class RestaurantRepoTest {
     }
 
     @Test
-    public void testFindAllRestaurants() {
+    void testFindAllRestaurants() {
         // Create and save multiple restaurants
         Restaurant restaurant1 = new Restaurant(0, "Restaurant 1", "Address 1", "City 1", "Description 1");
         Restaurant restaurant2 = new Restaurant(0, "Restaurant 2", "Address 2", "City 2", "Description 2");
@@ -67,7 +67,7 @@ class RestaurantRepoTest {
     }
 
     @Test
-    public void testFindById_ExistingRestaurant() {
+    void testFindById_ExistingRestaurant() {
         // Create and save a restaurant
         Restaurant restaurant = new Restaurant(0, "Test Restaurant", "Test Address", "Test City", "Test Description");
         Restaurant savedRestaurant = entityManager.persist(restaurant);
@@ -83,7 +83,7 @@ class RestaurantRepoTest {
     }
 
     @Test
-    public void testFindById_NonExistingRestaurant() {
+    void testFindById_NonExistingRestaurant() {
         // Try to find a restaurant with a non-existing ID
         Optional<Restaurant> foundRestaurant = restaurantRepo.findById(999);
 
@@ -92,7 +92,7 @@ class RestaurantRepoTest {
     }
 
     @Test
-    public void testUpdateRestaurant() {
+    void testUpdateRestaurant() {
         // Create and save a restaurant
         Restaurant restaurant = new Restaurant(0, "Original Name", "Original Address", "Original City", "Original Description");
         Restaurant savedRestaurant = entityManager.persist(restaurant);
@@ -110,7 +110,7 @@ class RestaurantRepoTest {
     }
 
     @Test
-    public void testDeleteRestaurant() {
+    void testDeleteRestaurant() {
         // Create and save a restaurant
         Restaurant restaurant = new Restaurant(0, "Test Restaurant", "Test Address", "Test City", "Test Description");
         Restaurant savedRestaurant = entityManager.persist(restaurant);

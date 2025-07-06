@@ -32,7 +32,7 @@ class RestaurantControllerTest {
     private RestaurantService restaurantService;
 
     @Test
-    public void testFetchAllRestaurants() throws Exception {
+    void testFetchAllRestaurants() throws Exception {
         // Mock data
         List<RestaurantDTO> mockRestaurants = Arrays.asList(
                 new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1"),
@@ -52,7 +52,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testFetchAllRestaurants_EmptyList() throws Exception {
+    void testFetchAllRestaurants_EmptyList() throws Exception {
         // Mock empty list
         List<RestaurantDTO> mockRestaurants = Arrays.asList();
 
@@ -69,7 +69,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testSaveRestaurant() throws Exception {
+    void testSaveRestaurant() throws Exception {
         RestaurantDTO mockRestaurant = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
 
         when(restaurantService.addRestaurantInDB(any(RestaurantDTO.class))).thenReturn(mockRestaurant);
@@ -84,7 +84,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testSaveRestaurant_InvalidData() throws Exception {
+    void testSaveRestaurant_InvalidData() throws Exception {
         // Test with invalid restaurant data (missing required fields)
         String invalidRestaurantJson = "{\"name\":\"\",\"address\":\"\"}";
 
@@ -97,7 +97,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testFindRestaurantById() throws Exception {
+    void testFindRestaurantById() throws Exception {
         Integer mockRestaurantId = 1;
         RestaurantDTO mockRestaurant = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
         ResponseEntity<RestaurantDTO> mockResponse = new ResponseEntity<>(mockRestaurant, HttpStatus.OK);
@@ -113,7 +113,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testFindRestaurantById_NotFound() throws Exception {
+    void testFindRestaurantById_NotFound() throws Exception {
         Integer mockRestaurantId = 999;
         ResponseEntity<RestaurantDTO> mockResponse = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
@@ -127,7 +127,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void testFindRestaurantById_InvalidId() throws Exception {
+    void testFindRestaurantById_InvalidId() throws Exception {
         // Test with invalid ID format
         mockMvc.perform(get("/restaurant/fetchById/{id}", "invalid")
                 .contentType(MediaType.APPLICATION_JSON))

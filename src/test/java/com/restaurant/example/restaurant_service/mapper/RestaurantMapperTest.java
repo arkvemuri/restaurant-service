@@ -14,7 +14,7 @@ class RestaurantMapperTest {
     private final RestaurantMapper mapper = RestaurantMapper.INSTANCE;
 
     @Test
-    public void testMapRestaurantToRestaurantDTO() {
+    void testMapRestaurantToRestaurantDTO() {
         // Create a restaurant entity
         Restaurant restaurant = new Restaurant(1, "Test Restaurant", "Test Address", "Test City", "Test Description");
 
@@ -31,7 +31,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantDTOToRestaurant() {
+    void testMapRestaurantDTOToRestaurant() {
         // Create a restaurant DTO
         RestaurantDTO dto = new RestaurantDTO(1, "Test Restaurant", "Test Address", "Test City", "Test Description");
 
@@ -48,7 +48,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantToRestaurantDTO_WithNullValues() {
+    void testMapRestaurantToRestaurantDTO_WithNullValues() {
         // Create a restaurant entity with null values
         Restaurant restaurant = new Restaurant(1, null, null, null, null);
 
@@ -65,7 +65,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantDTOToRestaurant_WithNullValues() {
+    void testMapRestaurantDTOToRestaurant_WithNullValues() {
         // Create a restaurant DTO with null values
         RestaurantDTO dto = new RestaurantDTO(1, null, null, null, null);
 
@@ -82,7 +82,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantToRestaurantDTO_WithEmptyStrings() {
+    void testMapRestaurantToRestaurantDTO_WithEmptyStrings() {
         // Create a restaurant entity with empty strings
         Restaurant restaurant = new Restaurant(1, "", "", "", "");
 
@@ -99,7 +99,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantDTOToRestaurant_WithEmptyStrings() {
+    void testMapRestaurantDTOToRestaurant_WithEmptyStrings() {
         // Create a restaurant DTO with empty strings
         RestaurantDTO dto = new RestaurantDTO(1, "", "", "", "");
 
@@ -116,7 +116,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantToRestaurantDTO_WithSpecialCharacters() {
+    void testMapRestaurantToRestaurantDTO_WithSpecialCharacters() {
         // Create a restaurant entity with special characters
         Restaurant restaurant = new Restaurant(1, "Restaurant & Café", "123 Main St, Apt #4", "New York, NY", "Best food in town! 🍕");
 
@@ -133,7 +133,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    public void testMapRestaurantDTOToRestaurant_WithSpecialCharacters() {
+    void testMapRestaurantDTOToRestaurant_WithSpecialCharacters() {
         // Create a restaurant DTO with special characters
         RestaurantDTO dto = new RestaurantDTO(1, "Restaurant & Café", "123 Main St, Apt #4", "New York, NY", "Best food in town! 🍕");
 

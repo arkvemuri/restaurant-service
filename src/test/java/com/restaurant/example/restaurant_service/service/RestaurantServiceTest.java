@@ -97,7 +97,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testFetchRestaurantById_ExistingId() {
+    void testFetchRestaurantById_ExistingId() {
         // Create a mock restaurant ID
         Integer mockRestaurantId = 1;
 
@@ -121,7 +121,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testFetchRestaurantById_NonExistingId() {
+    void testFetchRestaurantById_NonExistingId() {
         // Create a mock non-existing restaurant ID
         Integer mockRestaurantId = 999;
 
@@ -141,7 +141,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testFetchRestaurantById_NullId() {
+    void testFetchRestaurantById_NullId() {
         // Call the service method with null ID
         ResponseEntity<RestaurantDTO> response = restaurantService.fetchRestaurantById(null);
 

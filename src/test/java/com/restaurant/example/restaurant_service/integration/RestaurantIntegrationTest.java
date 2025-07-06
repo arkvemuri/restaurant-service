@@ -42,7 +42,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testCreateAndFetchRestaurant() throws Exception {
+    void testCreateAndFetchRestaurant() throws Exception {
         // Create restaurant data
         RestaurantDTO restaurantDTO = new RestaurantDTO(0, "Integration Test Restaurant", "Test Address", "Test City", "Test Description");
 
@@ -78,7 +78,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testFetchAllRestaurants() throws Exception {
+    void testFetchAllRestaurants() throws Exception {
         // Create and save restaurants directly to database
         Restaurant restaurant1 = new Restaurant(0, "Restaurant 1", "Address 1", "City 1", "Description 1");
         Restaurant restaurant2 = new Restaurant(0, "Restaurant 2", "Address 2", "City 2", "Description 2");
@@ -97,7 +97,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testFetchRestaurantById_NotFound() throws Exception {
+    void testFetchRestaurantById_NotFound() throws Exception {
         // Try to fetch a non-existing restaurant
         mockMvc.perform(get("/restaurant/fetchById/{id}", 999)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -105,7 +105,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testCreateRestaurantWithInvalidData() throws Exception {
+    void testCreateRestaurantWithInvalidData() throws Exception {
         // Try to create restaurant with invalid data
         String invalidJson = "{\"name\":\"\",\"address\":\"\"}";
 
@@ -116,7 +116,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testCreateMultipleRestaurants() throws Exception {
+    void testCreateMultipleRestaurants() throws Exception {
         // Create multiple restaurants
         RestaurantDTO restaurant1 = new RestaurantDTO(0, "Restaurant A", "Address A", "City A", "Description A");
         RestaurantDTO restaurant2 = new RestaurantDTO(0, "Restaurant B", "Address B", "City B", "Description B");
@@ -152,7 +152,7 @@ class RestaurantIntegrationTest {
     }
 
     @Test
-    public void testRestaurantDataPersistence() throws Exception {
+    void testRestaurantDataPersistence() throws Exception {
         // Create a restaurant with special characters
         RestaurantDTO restaurantDTO = new RestaurantDTO(0, "Restaurant & Café", "123 Main St, Apt #4", "New York, NY", "Best food in town! 🍕");
 
