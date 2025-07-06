@@ -1,94 +1,84 @@
 package com.restaurant.example.restaurant_service.controller;
 
-
-
 import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
 import com.restaurant.example.restaurant_service.service.RestaurantService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WebMvcTest(RestaurantController.class)
 public class RestaurantControllerTest {
 
-    @InjectMocks
-    RestaurantController restaurantController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
-    RestaurantService restaurantService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this); //in order for Mock and InjectMocks annotations to take effect, you need to call MockitoAnnotations.openMocks(this);
-    }
+    @MockBean
+    private RestaurantService restaurantService;
 
     @Test
-    public void testFetchAllRestaurants(){
-        // Mock the service behavior
+    public void testFetchAllRestaurants() throws Exception {
+        // Mock data
         List<RestaurantDTO> mockRestaurants = Arrays.asList(
                 new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1"),
                 new RestaurantDTO(2, "Restaurant 2", "Address 2", "city 2", "Desc 2")
         );
+
+        // Mock service
         when(restaurantService.findAllRestaurants()).thenReturn(mockRestaurants);
 
-        // Call the controller method
-        ResponseEntity<List<RestaurantDTO>> response = restaurantController.fetchAllRestaurants();
+        // Perform test
+        mockMvc.perform(get("/restaurant/fetchAllRestaurants")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(mockRestaurants)));
 
-        // Verify the response
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockRestaurants, response.getBody());
-
-        // Verify that the service method was called
         verify(restaurantService, times(1)).findAllRestaurants();
     }
 
     @Test
-    public void testSaveRestaurant() {
-        // Create a mock restaurant to be saved
-        RestaurantDTO mockRestaurant =  new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
+    public void testSaveRestaurant() throws Exception {
+        RestaurantDTO mockRestaurant = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
 
-        // Mock the service behavior
-        when(restaurantService.addRestaurantInDB(mockRestaurant)).thenReturn(mockRestaurant);
+        when(restaurantService.addRestaurantInDB(any(RestaurantDTO.class))).thenReturn(mockRestaurant);
 
-        // Call the controller method
-        ResponseEntity<RestaurantDTO> response = restaurantController.saveRestaurant(mockRestaurant);
+        mockMvc.perform(post("/restaurant/addRestaurant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(mockRestaurant)))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(mockRestaurant)));
 
-        // Verify the response
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(mockRestaurant, response.getBody());
-
-        // Verify that the service method was called
-        verify(restaurantService, times(1)).addRestaurantInDB(mockRestaurant);
+        verify(restaurantService, times(1)).addRestaurantInDB(any(RestaurantDTO.class));
     }
 
     @Test
-    public void testFindRestaurantById() {
-        // Create a mock restaurant ID
+    public void testFindRestaurantById() throws Exception {
         Integer mockRestaurantId = 1;
-
-        // Create a mock restaurant to be returned by the service
         RestaurantDTO mockRestaurant = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
+        ResponseEntity<RestaurantDTO> mockResponse = new ResponseEntity<>(mockRestaurant, HttpStatus.OK);
 
-        // Mock the service behavior
-        when(restaurantService.fetchRestaurantById(mockRestaurantId)).thenReturn(new ResponseEntity<>(mockRestaurant, HttpStatus.OK));
+        when(restaurantService.fetchRestaurantById(mockRestaurantId)).thenReturn(mockResponse);
 
-        // Call the controller method
-        ResponseEntity<RestaurantDTO> response = restaurantController.findRestaurantById(mockRestaurantId);
+        mockMvc.perform(get("/restaurant/fetchById/{id}", mockRestaurantId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(mockRestaurant)));
 
-        // Verify the response
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockRestaurant, response.getBody());
-
-        // Verify that the service method was called
         verify(restaurantService, times(1)).fetchRestaurantById(mockRestaurantId);
     }
 }

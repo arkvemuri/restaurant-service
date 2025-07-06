@@ -5,13 +5,13 @@ import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
 import com.restaurant.example.restaurant_service.entity.Restaurant;
 import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
 import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestConstructor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,18 +20,15 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class RestaurantServiceTest {
 
     @Mock
-    RestaurantRepo restaurantRepo;
+    private RestaurantRepo restaurantRepo;
 
     @InjectMocks
-    RestaurantService restaurantService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this); //in order for Mock and InjectMocks annotations to take effect, you need to call MockitoAnnotations.openMocks(this);
-    }
+    private RestaurantService restaurantService;
 
     @Test
     public void testFindAllRestaurants() {
