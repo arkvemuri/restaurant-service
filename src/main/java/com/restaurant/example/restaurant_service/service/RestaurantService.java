@@ -2,7 +2,6 @@ package com.restaurant.example.restaurant_service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,11 +24,9 @@ public class RestaurantService {
 		
 		List<Restaurant> restaurants = restaurantRepo.findAll();
 		
-		List<RestaurantDTO> restaurantDTOList = restaurants.stream()
-				.map(restaurant -> RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant))
-				.collect(Collectors.toList());
-		
-		return restaurantDTOList;
+		return restaurants.stream()
+				.map(RestaurantMapper.INSTANCE::mapRestaurantToRestaurantDTO)
+				.toList();
 		
 	}
 
