@@ -34,6 +34,7 @@ class RestaurantServiceTest {
     @BeforeEach
     void setUp() {
         restaurantMapper = RestaurantMapper.INSTANCE;
+        reset(restaurantRepo);
     }
 
     @Test
