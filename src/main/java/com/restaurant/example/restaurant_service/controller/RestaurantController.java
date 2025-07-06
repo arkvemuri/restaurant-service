@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import com.restaurant.example.restaurant_service.service.RestaurantService;
 
 @RestController
 @RequestMapping("/restaurant")
-@CrossOrigin
 public class RestaurantController {
 
     private final RestaurantService restaurantService;

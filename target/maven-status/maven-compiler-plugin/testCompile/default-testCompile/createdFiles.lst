@@ -2,4 +2,5 @@ com\restaurant\example\restaurant_service\integration\RestaurantIntegrationTest.
 com\restaurant\example\restaurant_service\mapper\RestaurantMapperTest.class
 com\restaurant\example\restaurant_service\repo\RestaurantRepoTest.class
 com\restaurant\example\restaurant_service\service\RestaurantServiceTest.class
+com\restaurant\example\restaurant_service\controller\RestaurantControllerTest.class
 com\restaurant\example\restaurant_service\RestaurantlistingApplicationTests.class

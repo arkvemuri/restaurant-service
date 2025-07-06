@@ -11,3 +11,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+# Local development CORS configuration
+app:
+  cors:
+    # Allow local development origins
+    allowed-origins: "http://localhost:3000,http://localhost:8080,http://localhost:9090,http://localhost:4200"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600

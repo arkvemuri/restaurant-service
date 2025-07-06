@@ -13,3 +13,13 @@ spring:
       ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+
+# CORS Configuration for API Gateway architecture
+app:
+  cors:
+    # Default allowed origins - should be overridden per environment
+    allowed-origins: "http://localhost:3000,http://localhost:8080,http://localhost:9090"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
