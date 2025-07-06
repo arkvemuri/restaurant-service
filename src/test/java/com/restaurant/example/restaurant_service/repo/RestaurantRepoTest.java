@@ -23,7 +23,7 @@ class RestaurantRepoTest {
     private RestaurantRepo restaurantRepo;
 
     @Test
-    public void testSaveRestaurant() {
+    void testSaveRestaurant() {
         // Create a restaurant
         Restaurant restaurant = new Restaurant(0, "Test Restaurant", "Test Address", "Test City", "Test Description");
 

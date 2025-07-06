@@ -38,7 +38,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testFindAllRestaurants() {
+    void testFindAllRestaurants() {
         // Create mock restaurants
         List<Restaurant> mockRestaurants = Arrays.asList(
                 new Restaurant(1, "Restaurant 1", "Address 1", "city 1", "Desc 1"),
@@ -58,7 +58,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testFindAllRestaurants_EmptyList() {
+    void testFindAllRestaurants_EmptyList() {
         // Mock empty list
         when(restaurantRepo.findAll()).thenReturn(Arrays.asList());
 
@@ -74,7 +74,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void testAddRestaurantInDB() {
+    void testAddRestaurantInDB() {
         // Create a mock restaurant to be saved
         RestaurantDTO mockRestaurantDTO = new RestaurantDTO(0, "Restaurant 1", "Address 1", "city 1", "Desc 1");
         Restaurant mockRestaurant = new Restaurant(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
