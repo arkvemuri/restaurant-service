@@ -52,6 +52,23 @@ public class RestaurantControllerTest {
     }
 
     @Test
+    public void testFetchAllRestaurants_EmptyList() throws Exception {
+        // Mock empty list
+        List<RestaurantDTO> mockRestaurants = Arrays.asList();
+
+        // Mock service
+        when(restaurantService.findAllRestaurants()).thenReturn(mockRestaurants);
+
+        // Perform test
+        mockMvc.perform(get("/restaurant/fetchAllRestaurants")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(restaurantService, times(1)).findAllRestaurants();
+    }
+
+    @Test
     public void testSaveRestaurant() throws Exception {
         RestaurantDTO mockRestaurant = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
 
@@ -64,6 +81,19 @@ public class RestaurantControllerTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(mockRestaurant)));
 
         verify(restaurantService, times(1)).addRestaurantInDB(any(RestaurantDTO.class));
+    }
+
+    @Test
+    public void testSaveRestaurant_InvalidData() throws Exception {
+        // Test with invalid restaurant data (missing required fields)
+        String invalidRestaurantJson = "{\"name\":\"\",\"address\":\"\"}";
+
+        mockMvc.perform(post("/restaurant/addRestaurant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(invalidRestaurantJson))
+                .andExpect(status().isBadRequest());
+
+        verify(restaurantService, never()).addRestaurantInDB(any(RestaurantDTO.class));
     }
 
     @Test
@@ -80,5 +110,29 @@ public class RestaurantControllerTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(mockRestaurant)));
 
         verify(restaurantService, times(1)).fetchRestaurantById(mockRestaurantId);
+    }
+
+    @Test
+    public void testFindRestaurantById_NotFound() throws Exception {
+        Integer mockRestaurantId = 999;
+        ResponseEntity<RestaurantDTO> mockResponse = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        when(restaurantService.fetchRestaurantById(mockRestaurantId)).thenReturn(mockResponse);
+
+        mockMvc.perform(get("/restaurant/fetchById/{id}", mockRestaurantId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(restaurantService, times(1)).fetchRestaurantById(mockRestaurantId);
+    }
+
+    @Test
+    public void testFindRestaurantById_InvalidId() throws Exception {
+        // Test with invalid ID format
+        mockMvc.perform(get("/restaurant/fetchById/{id}", "invalid")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        verify(restaurantService, never()).fetchRestaurantById(any());
     }
 }

@@ -41,6 +41,10 @@ public class RestaurantService {
 
 	public ResponseEntity<RestaurantDTO> fetchRestaurantById(Integer id) {
 		
+		if (id == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
 		Optional<Restaurant> restaurant = restaurantRepo.findById(id);
 		
 		if(restaurant.isPresent())

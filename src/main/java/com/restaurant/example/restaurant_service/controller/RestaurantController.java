@@ -32,6 +32,13 @@ public class RestaurantController {
 
     @PostMapping("/addRestaurant")
     public ResponseEntity<RestaurantDTO> saveRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        // Validate restaurant data
+        if (restaurantDTO == null || 
+            restaurantDTO.getName() == null || restaurantDTO.getName().trim().isEmpty() ||
+            restaurantDTO.getAddress() == null || restaurantDTO.getAddress().trim().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
         RestaurantDTO restaurantAdded = restaurantService.addRestaurantInDB(restaurantDTO);
         return new ResponseEntity<>(restaurantAdded, HttpStatus.CREATED);
     }
