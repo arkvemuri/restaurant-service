@@ -1,7 +1,7 @@
 package com.restaurant.example.restaurant_service.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+
 import org.mapstruct.factory.Mappers;
 
 import com.restaurant.example.restaurant_service.dto.RestaurantDTO;

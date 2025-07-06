@@ -115,7 +115,7 @@ class RestaurantControllerTest {
     @Test
     void testFindRestaurantById_NotFound() throws Exception {
         Integer mockRestaurantId = 999;
-        ResponseEntity<RestaurantDTO> mockResponse = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        ResponseEntity<RestaurantDTO> mockResponse = ResponseEntity.notFound().build();
 
         when(restaurantService.fetchRestaurantById(mockRestaurantId)).thenReturn(mockResponse);
 

@@ -113,8 +113,9 @@ class RestaurantServiceTest {
         // Verify the response
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(mockRestaurantId, response.getBody().getId());
+        RestaurantDTO responseBody = response.getBody();
+        assertNotNull(responseBody);
+        assertEquals(mockRestaurantId, responseBody.getId());
 
         // Verify that the repository method was called
         verify(restaurantRepo, times(1)).findById(mockRestaurantId);
