@@ -21,8 +21,8 @@ import com.restaurant.example.restaurant_service.service.RestaurantService;
 @CrossOrigin
 public class RestaurantController {
 
-	@Autowired
-	RestaurantService restaurantService;
+	@Autowired private final
+	RestaurantService restaurantService = new RestaurantService();
 	
 	@GetMapping("/fetchAllRestaurants")
 	public ResponseEntity<List<RestaurantDTO>> fetchAllRestaurants() {
