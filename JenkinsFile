@@ -108,7 +108,7 @@ pipeline {
                    bat 'git checkout master'
                    bat 'git add .'
                    bat 'git commit -m "Update image tag"'
-                   sshagent(['git-ssh'])
+                   sshagent(['local-git-ssh'])
                      {
                            bat('git push')
                      }
