@@ -11,6 +11,8 @@ pipeline {
         BRANCH_NAME = 'master'
         APP_VERSION = '1.0.0'
         SONAR_PROJECT_KEY = 'restaurant-listing'
+        DOCKERHUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIAL')
+        VERSION = "${env.BUILD_ID}"
     }
 
     stages {
@@ -87,6 +89,32 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+
+        stage('Docker Build and Push') {
+              steps {
+                  bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin'
+                  bat 'docker build -t arkvemuri/restaurant-listing-service:%VERSION% .'
+                  bat 'docker push arkvemuri/restaurant-listing-service:%VERSION%'
+              }
+            }
+
+         stage('Update Image Tag in GitOps') {
+               steps {
+                  checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:arkvemuri/deployment-folder.git']])
+                 script {
+                bat '''
+                   powershell -Command "(Get-Content aws/restaurant-manifest.yml) -replace 'image:.*', 'image: arkvemuri/restaurant-listing-service:%VERSION%' | Set-Content aws/restaurant-manifest.yml"
+                 '''
+                   bat 'git checkout master'
+                   bat 'git add .'
+                   bat 'git commit -m "Update image tag"'
+                   sshagent(['git-ssh'])
+                     {
+                           bat('git push')
+                     }
+                 }
+               }
+             }
     }
 
     post {
