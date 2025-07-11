@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     
     services:
+      eureka:
+        image: eurekaserver:latest
+        ports:
+          - 8761:8761
       mysql:
         image: mysql:8.0
         env:
