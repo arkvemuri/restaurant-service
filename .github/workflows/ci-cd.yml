@@ -12,7 +12,7 @@ jobs:
     
     services:
       eureka:
-        image: eureka-service:latest
+        image: arkvemuri/eureka-server:0.0.2
         ports:
           - 8761:8761
       mysql:
