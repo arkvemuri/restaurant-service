@@ -1,4 +1,4 @@
-name: Restaurant Service CI/CD
+name: Restaurant Service CI/CD Pipeline
 
 on:
   push:
