@@ -5,3 +5,14 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-0.eureka-service.default.svc.cluster.local:8761/eureka
+
+# Development environment CORS configuration
+# In production, API Gateway should handle CORS, but this provides fallback
+app:
+  cors:
+    # Restrict to API Gateway and known development origins
+    allowed-origins: "https://api-gateway.dev.company.com,http://localhost:8080"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "Content-Type,Authorization,X-Requested-With,Accept,Origin"
+    allow-credentials: false
+    max-age: 1800

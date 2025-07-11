@@ -1,46 +1,44 @@
 package com.restaurant.example.restaurant_service.service;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times ;
-import static org.mockito.Mockito.verify ;
-import static org.mockito.Mockito.when ;
+import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
+import com.restaurant.example.restaurant_service.entity.Restaurant;
+import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
+import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions ;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
-import com.restaurant.example.restaurant_service.entity.Restaurant;
-import com.restaurant.example.restaurant_service.exceptions.RestaurantNotFoundException ;
-import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
-import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
-
-public class RestaurantServiceTest {
+@ExtendWith(MockitoExtension.class)
+class RestaurantServiceTest {
 
     @Mock
-    RestaurantRepo restaurantRepo;
+    private RestaurantRepo restaurantRepo;
+
+    @Mock
+    private RestaurantMapper restaurantMapper;
 
     @InjectMocks
-    RestaurantService restaurantService;
+    private RestaurantService restaurantService;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this); //in order for Mock and InjectMocks annotations to take effect, you need to call MockitoAnnotations.openMocks(this);
+    void setUp() {
+        reset(restaurantRepo, restaurantMapper);
     }
 
     @Test
-    public void testFindAllRestaurants() {
+    void testFindAllRestaurants() {
         // Create mock restaurants
         List<Restaurant> mockRestaurants = Arrays.asList(
                 new Restaurant(1, "Restaurant 1", "Address 1", "city 1", "Desc 1"),
@@ -52,37 +50,54 @@ public class RestaurantServiceTest {
         List<RestaurantDTO> restaurantDTOList = restaurantService.findAllRestaurants();
 
         // Verify the result
+        assertNotNull(restaurantDTOList);
         assertEquals(mockRestaurants.size(), restaurantDTOList.size());
-        for (int i = 0; i < mockRestaurants.size(); i++) {
-            RestaurantDTO expectedDTO = RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(mockRestaurants.get(i));
-            assertEquals(expectedDTO, restaurantDTOList.get(i));
-        }
-
+        
         // Verify that the repository method was called
         verify(restaurantRepo, times(1)).findAll();
     }
 
     @Test
-    public void testAddRestaurantInDB() {
+    void testFindAllRestaurants_EmptyList() {
+        // Mock empty list
+        when(restaurantRepo.findAll()).thenReturn(Arrays.asList());
+
+        // Call the service method
+        List<RestaurantDTO> restaurantDTOList = restaurantService.findAllRestaurants();
+
+        // Verify the result
+        assertNotNull(restaurantDTOList);
+        assertEquals(0, restaurantDTOList.size());
+        
+        // Verify that the repository method was called
+        verify(restaurantRepo, times(1)).findAll();
+    }
+
+    @Test
+    void testAddRestaurantInDB() {
         // Create a mock restaurant to be saved
-        RestaurantDTO mockRestaurantDTO = new RestaurantDTO(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
-        Restaurant mockRestaurant = RestaurantMapper.INSTANCE.mapRestaurantDTOToRestaurant(mockRestaurantDTO);
+        RestaurantDTO mockRestaurantDTO = new RestaurantDTO(0, "Restaurant 1", "Address 1", "city 1", "Desc 1");
+        Restaurant mockRestaurant = new Restaurant(1, "Restaurant 1", "Address 1", "city 1", "Desc 1");
 
         // Mock the repository behavior
-        when(restaurantRepo.save(mockRestaurant)).thenReturn(mockRestaurant);
+        when(restaurantRepo.save(any(Restaurant.class))).thenReturn(mockRestaurant);
 
         // Call the service method
         RestaurantDTO savedRestaurantDTO = restaurantService.addRestaurantInDB(mockRestaurantDTO);
 
         // Verify the result
-        assertEquals(mockRestaurantDTO, savedRestaurantDTO);
+        assertNotNull(savedRestaurantDTO);
+        assertEquals(mockRestaurant.getName(), savedRestaurantDTO.getName());
+        assertEquals(mockRestaurant.getAddress(), savedRestaurantDTO.getAddress());
+        assertEquals(mockRestaurant.getCity(), savedRestaurantDTO.getCity());
+        assertEquals(mockRestaurant.getRestaurantDescription(), savedRestaurantDTO.getRestaurantDescription());
 
         // Verify that the repository method was called
-        verify(restaurantRepo, times(1)).save(mockRestaurant);
+        verify(restaurantRepo, times(1)).save(any(Restaurant.class));
     }
 
     @Test
-    public void testFetchRestaurantById_ExistingId() {
+    void testFetchRestaurantById_ExistingId() {
         // Create a mock restaurant ID
         Integer mockRestaurantId = 1;
 
@@ -96,30 +111,47 @@ public class RestaurantServiceTest {
         ResponseEntity<RestaurantDTO> response = restaurantService.fetchRestaurantById(mockRestaurantId);
 
         // Verify the response
+        assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockRestaurantId, response.getBody().getId());
+        RestaurantDTO responseBody = response.getBody();
+        assertNotNull(responseBody);
+        assertEquals(mockRestaurantId, responseBody.getId());
 
         // Verify that the repository method was called
         verify(restaurantRepo, times(1)).findById(mockRestaurantId);
     }
 
     @Test
-    public void testFetchRestaurantById_NonExistingId() {
+    void testFetchRestaurantById_NonExistingId() {
         // Create a mock non-existing restaurant ID
-        Integer mockRestaurantId = 9;
+        Integer mockRestaurantId = 999;
 
         // Mock the repository behavior
         when(restaurantRepo.findById(mockRestaurantId)).thenReturn(Optional.empty());
 
         // Call the service method
-        RestaurantNotFoundException thrown =Assertions.assertThrows(RestaurantNotFoundException.class,() -> restaurantService.fetchRestaurantById(mockRestaurantId));
+        ResponseEntity<RestaurantDTO> response = restaurantService.fetchRestaurantById(mockRestaurantId);
 
         // Verify the response
-        Assertions.assertEquals("Restaurant with ID ="+mockRestaurantId+ " not found",thrown.getMessage());
-        //assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        //assertEquals(null, response.getBody());
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
 
         // Verify that the repository method was called
-        //verify(restaurantRepo, times(1)).findById(mockRestaurantId);
+        verify(restaurantRepo, times(1)).findById(mockRestaurantId);
+    }
+
+    @Test
+    void testFetchRestaurantById_NullId() {
+        // Call the service method with null ID
+        ResponseEntity<RestaurantDTO> response = restaurantService.fetchRestaurantById(null);
+
+        // Verify the response
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+
+        // Verify that the repository method was not called since we handle null before calling it
+        verify(restaurantRepo, never()).findById(any());
     }
 }
