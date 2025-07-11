@@ -6,8 +6,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-07-09T19:01:54+0530",
-    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.42.50.v20250628-1110, environment: Java 21.0.7 (Eclipse Adoptium)"
+    date = "2025-07-11T22:44:56+0530",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 public class RestaurantMapperImpl implements RestaurantMapper {
 
@@ -19,10 +19,10 @@ public class RestaurantMapperImpl implements RestaurantMapper {
 
         Restaurant restaurant = new Restaurant();
 
-        restaurant.setAddress( restaurantDTO.getAddress() );
-        restaurant.setCity( restaurantDTO.getCity() );
         restaurant.setId( restaurantDTO.getId() );
         restaurant.setName( restaurantDTO.getName() );
+        restaurant.setAddress( restaurantDTO.getAddress() );
+        restaurant.setCity( restaurantDTO.getCity() );
         restaurant.setRestaurantDescription( restaurantDTO.getRestaurantDescription() );
 
         return restaurant;
@@ -36,10 +36,10 @@ public class RestaurantMapperImpl implements RestaurantMapper {
 
         RestaurantDTO restaurantDTO = new RestaurantDTO();
 
-        restaurantDTO.setAddress( restaurant.getAddress() );
-        restaurantDTO.setCity( restaurant.getCity() );
         restaurantDTO.setId( restaurant.getId() );
         restaurantDTO.setName( restaurant.getName() );
+        restaurantDTO.setAddress( restaurant.getAddress() );
+        restaurantDTO.setCity( restaurant.getCity() );
         restaurantDTO.setRestaurantDescription( restaurant.getRestaurantDescription() );
 
         return restaurantDTO;

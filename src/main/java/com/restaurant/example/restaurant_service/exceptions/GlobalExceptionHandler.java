@@ -5,6 +5,7 @@ import org.springframework.http.ProblemDetail ;
 import org.springframework.web.bind.annotation.ExceptionHandler ;
 import org.springframework.web.bind.annotation.ResponseStatus ;
 import org.springframework.web.bind.annotation.RestControllerAdvice ;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler
@@ -31,4 +32,14 @@ public class GlobalExceptionHandler
         
         return pd;
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetail handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid ID format");
+        pd.setTitle("Invalid Request Parameter");
+        pd.setDetail("The provided ID is not in the correct format.");
+        return pd;
+    }
+
 }

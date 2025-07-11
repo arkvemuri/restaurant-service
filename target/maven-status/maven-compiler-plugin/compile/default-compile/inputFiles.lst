@@ -2,6 +2,8 @@ C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\r
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\controller\RestaurantController.java
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\dto\RestaurantDTO.java
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\entity\Restaurant.java
+C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\exceptions\GlobalExceptionHandler.java
+C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\exceptions\RestaurantNotFoundException.java
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\mapper\RestaurantMapper.java
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\repo\RestaurantRepo.java
 C:\Users\rkvem\Downloads\restaurantlisting\restaurantlisting\src\main\java\com\restaurant\example\restaurant_service\RestaurantServiceApplication.java
