@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
 import com.restaurant.example.restaurant_service.entity.Restaurant;
+import com.restaurant.example.restaurant_service.exceptions.RestaurantNotFoundException ;
 import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
 import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
 
@@ -19,6 +20,7 @@ public class RestaurantService {
 
 	@Autowired
 	RestaurantRepo restaurantRepo;
+	
 
 	public List<RestaurantDTO> findAllRestaurants() {
 		
@@ -47,6 +49,9 @@ public class RestaurantService {
 		{
 			return new ResponseEntity<>(RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO((restaurant.get())),HttpStatus.OK);
 		}
-		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		else {
+		   throw new RestaurantNotFoundException("Restaurant with ID ="+id+ " not found");
+		}
+		//return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 }

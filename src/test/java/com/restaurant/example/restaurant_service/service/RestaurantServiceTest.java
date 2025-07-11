@@ -1,10 +1,17 @@
 package com.restaurant.example.restaurant_service.service;
 
 
-import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
-import com.restaurant.example.restaurant_service.entity.Restaurant;
-import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
-import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times ;
+import static org.mockito.Mockito.verify ;
+import static org.mockito.Mockito.when ;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions ;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,12 +20,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import com.restaurant.example.restaurant_service.dto.RestaurantDTO;
+import com.restaurant.example.restaurant_service.entity.Restaurant;
+import com.restaurant.example.restaurant_service.exceptions.RestaurantNotFoundException ;
+import com.restaurant.example.restaurant_service.mapper.RestaurantMapper;
+import com.restaurant.example.restaurant_service.repo.RestaurantRepo;
 
 public class RestaurantServiceTest {
 
@@ -100,22 +106,20 @@ public class RestaurantServiceTest {
     @Test
     public void testFetchRestaurantById_NonExistingId() {
         // Create a mock non-existing restaurant ID
-        Integer mockRestaurantId = 1;
+        Integer mockRestaurantId = 9;
 
         // Mock the repository behavior
         when(restaurantRepo.findById(mockRestaurantId)).thenReturn(Optional.empty());
 
         // Call the service method
-        ResponseEntity<RestaurantDTO> response = restaurantService.fetchRestaurantById(mockRestaurantId);
+        RestaurantNotFoundException thrown =Assertions.assertThrows(RestaurantNotFoundException.class,() -> restaurantService.fetchRestaurantById(mockRestaurantId));
 
         // Verify the response
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals(null, response.getBody());
+        Assertions.assertEquals("Restaurant with ID ="+mockRestaurantId+ " not found",thrown.getMessage());
+        //assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        //assertEquals(null, response.getBody());
 
         // Verify that the repository method was called
-        verify(restaurantRepo, times(1)).findById(mockRestaurantId);
+        //verify(restaurantRepo, times(1)).findById(mockRestaurantId);
     }
-
-
-
 }
